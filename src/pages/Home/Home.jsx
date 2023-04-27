@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FilmsList } from '../../components/FilmsList/FilmsList';
 import { getTrendedMovies } from '../../api';
+// import image from './../../images/placeholder-photo.jpg';
 
-export const Home = () => {
+const Home = () => {
   const [status, setStatus] = useState('pending');
   const [movies, setMovies] = useState([]);
 
-  //   let movies;
-
   useEffect(() => {
     getTrendedMovies().then(response => {
-      //   console.log(response.data.results);
       setMovies(response.data.results);
       setStatus('resolved');
     });
@@ -29,9 +27,12 @@ export const Home = () => {
     return (
       <div>
         <h1>Trending today</h1>
+        {/* <img src={image} alt="" /> */}
         {console.log(movies)}
         <FilmsList movies={movies}></FilmsList>
       </div>
     );
   }
 };
+
+export default Home;

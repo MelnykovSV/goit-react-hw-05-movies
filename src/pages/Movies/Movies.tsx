@@ -5,7 +5,7 @@ import { Searchbar } from '../../components/Searchbar/Searchbar';
 import { FilmsList } from '../../components/FilmsList/FilmsList';
 import { getMoviesByQuery } from '../../api';
 
-export const Movies = () => {
+const Movies = () => {
   const [searchParams, setSearchParams]: any = useSearchParams('');
   const [status, setStatus] = useState('pending');
   const [movies, setMovies] = useState([]);
@@ -56,3 +56,5 @@ export const Movies = () => {
     }
   }
 };
+
+export default Movies;

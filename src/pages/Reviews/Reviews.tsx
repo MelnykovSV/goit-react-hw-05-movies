@@ -4,7 +4,7 @@ import { Container } from './Reviews.styled';
 import { useParams } from 'react-router';
 import { getMovieReviews } from '../../api';
 
-export const Reviews = () => {
+const Reviews = () => {
   const { movieId }: any = useParams();
 
   const [status, setStatus] = useState('pending');
@@ -22,6 +22,13 @@ export const Reviews = () => {
     return <div>PENDING...</div>;
   }
   if (status === 'resolved') {
+    if (!reviews.length) {
+      return (
+        <div>
+          <p>No veriews found</p>
+        </div>
+      );
+    }
     return (
       <div>
         <h2>REVIEWS</h2>
@@ -29,8 +36,8 @@ export const Reviews = () => {
           {reviews.map((item: any) => {
             return (
               <li>
-                <p>{item.author}</p>
-                <p>{item.content}</p>
+                <p>{item.author || 'Author name is not found'}</p>
+                <p>{item.content || 'Overview content is not found'}</p>
               </li>
             );
           })}
@@ -39,3 +46,5 @@ export const Reviews = () => {
     );
   }
 };
+
+export default Reviews;

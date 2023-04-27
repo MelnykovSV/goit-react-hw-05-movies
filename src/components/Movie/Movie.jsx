@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import React, { useState, useEffect, Suspense } from 'react';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 
 import { getMovieData } from '../../api';
 
 import { useParams } from 'react-router-dom';
+import placeholderPoster from './../../images/placeholder-poster.jpg';
 
-export const Movie = () => {
-  const { movieId }: any = useParams();
+const Movie = () => {
+  const { movieId } = useParams();
   const [status, setStatus] = useState('pending');
-  const [movie, setMovie]: any = useState([]);
+  const [movie, setMovie] = useState([]);
+
+  const location = useLocation();
+
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     getMovieData(movieId).then(response => {
@@ -23,10 +28,15 @@ export const Movie = () => {
   if (status === 'resolved') {
     return (
       <div>
+        <Link to={backLinkHref}>Go back</Link>
         <h2>{movie.title}</h2>
 
         <img
-          src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+          src={
+            movie.poster_path
+              ? `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
+              : placeholderPoster
+          }
           alt={movie.title}
         />
 
@@ -39,7 +49,7 @@ export const Movie = () => {
         <div>
           <h3>Genres</h3>
           <ul>
-            {movie.genres.map((item: any) => {
+            {movie.genres.map(item => {
               return <li>{item.name}</li>;
             })}
           </ul>
@@ -54,8 +64,12 @@ export const Movie = () => {
             </li>
           </ul>
         </nav>
-        <Outlet />
+        <Suspense fallback={<div>LOADING PAGE...</div>}>
+          <Outlet />
+        </Suspense>
       </div>
     );
   }
 };
+
+export default Movie;

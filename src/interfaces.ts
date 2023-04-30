@@ -3,3 +3,7 @@ export interface IFilmsListItem {
   name: string | undefined;
   id: string;
 }
+
+export interface IFilmsListProps {
+  movies: IFilmsListItem[];
+}

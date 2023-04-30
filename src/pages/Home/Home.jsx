@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FilmsList } from '../../components/FilmsList/FilmsList';
 import { getTrendedMovies } from '../../api';
 // import image from './../../images/placeholder-photo.jpg';
+import { Watch } from 'react-loader-spinner';
 
 const Home = () => {
   const [status, setStatus] = useState('pending');
@@ -19,7 +20,15 @@ const Home = () => {
       <div>
         <h1>Trending today</h1>
 
-        <div> PENDING...</div>
+        <Watch
+          height="80"
+          width="80"
+          radius="48"
+          color="#4fa94d"
+          ariaLabel="watch-loading"
+          wrapperStyle={{}}
+          visible={true}
+        />
       </div>
     );
   }

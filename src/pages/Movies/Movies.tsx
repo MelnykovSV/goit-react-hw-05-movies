@@ -4,14 +4,20 @@ import { Container } from './Movies.styled';
 import { Searchbar } from '../../components/Searchbar/Searchbar';
 import { FilmsList } from '../../components/FilmsList/FilmsList';
 import { getMoviesByQuery } from '../../api';
+import { Watch } from 'react-loader-spinner';
 
 const Movies = () => {
   const [searchParams, setSearchParams]: any = useSearchParams('');
   const [status, setStatus] = useState('pending');
   const [movies, setMovies] = useState([]);
 
-  const inputChangeHandler = (e: any) => {
-    setSearchParams({ query: e.target.value });
+  const searchFormSubmitHandler = (e: any) => {
+    e.preventDefault();
+    const trimmedQuery = e.target.elements.searchQuery.value.trim();
+    if (trimmedQuery) {
+      setSearchParams({ query: trimmedQuery });
+      e.target.reset();
+    }
   };
 
   useEffect(() => {
@@ -26,7 +32,7 @@ const Movies = () => {
       <Container>
         <Searchbar
           value={searchParams.get('query')}
-          inputChangeHandler={inputChangeHandler}
+          searchFormSubmitHandler={searchFormSubmitHandler}
         ></Searchbar>
       </Container>
     );
@@ -36,9 +42,17 @@ const Movies = () => {
         <Container>
           <Searchbar
             value={searchParams.get('query')}
-            inputChangeHandler={inputChangeHandler}
+            searchFormSubmitHandler={searchFormSubmitHandler}
           ></Searchbar>
-          <div>PENDING...</div>
+          <Watch
+            height="80"
+            width="80"
+            radius="48"
+            color="#4fa94d"
+            ariaLabel="watch-loading"
+            wrapperStyle={{}}
+            visible={true}
+          />
         </Container>
       );
     }
@@ -48,7 +62,7 @@ const Movies = () => {
         <Container>
           <Searchbar
             value={searchParams.get('query')}
-            inputChangeHandler={inputChangeHandler}
+            searchFormSubmitHandler={searchFormSubmitHandler}
           ></Searchbar>
           <FilmsList movies={movies}></FilmsList>
         </Container>

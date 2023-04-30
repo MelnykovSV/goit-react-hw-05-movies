@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container } from './Cast.styled';
 import { useParams } from 'react-router';
 import { getMovieCast } from '../../api';
+import { Watch } from 'react-loader-spinner';
 
 import placeholderImage from './../../images/placeholder-photo.jpg';
 
@@ -21,7 +22,17 @@ const Cast = () => {
   }, []);
 
   if (status === 'pending') {
-    return <div>PENDING...</div>;
+    return (
+      <Watch
+        height="80"
+        width="80"
+        radius="48"
+        color="#4fa94d"
+        ariaLabel="watch-loading"
+        wrapperStyle={{}}
+        visible={true}
+      />
+    );
   }
   if (status === 'resolved') {
     if (!cast.length) {

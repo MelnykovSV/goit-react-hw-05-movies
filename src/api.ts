@@ -10,9 +10,9 @@ export async function getData(query: string) {
       return response;
     })
     .catch(error => {
-      return error;
-    })
-    .finally(() => {});
+      console.log(error.message);
+      throw new Error(error.message);
+    });
   return response;
 }
 
@@ -39,9 +39,3 @@ export function getMovieCast(movieID: string) {
 export function getMovieReviews(movieID: string) {
   return getData(`${BASE}movie/${movieID}/reviews?api_key=${KEY}`);
 }
-
-// `https://api.themoviedb.org/3/movie100/reviews?api_key=f5947bee69b0eabce6ba631e79612468`;
-
-// `https://api.themoviedb.org/3/search/movie/934433?api_key=f5947bee69b0eabce6ba631e79612468`
-
-// `https://api.themoviedb.org/3/movie/123?api_key=f5947bee69b0eabce6ba631e79612468`

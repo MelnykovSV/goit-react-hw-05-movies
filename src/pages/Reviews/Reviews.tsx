@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container } from './Reviews.styled';
 import { useParams } from 'react-router';
 import { getMovieReviews } from '../../api';
+import { Watch } from 'react-loader-spinner';
 
 const Reviews = () => {
   const { movieId }: any = useParams();
@@ -19,7 +20,17 @@ const Reviews = () => {
   }, []);
 
   if (status === 'pending') {
-    return <div>PENDING...</div>;
+    return (
+      <Watch
+        height="80"
+        width="80"
+        radius="48"
+        color="#4fa94d"
+        ariaLabel="watch-loading"
+        wrapperStyle={{}}
+        visible={true}
+      />
+    );
   }
   if (status === 'resolved') {
     if (!reviews.length) {
@@ -30,7 +41,7 @@ const Reviews = () => {
       );
     }
     return (
-      <div>
+      <Container>
         <h2>REVIEWS</h2>
         <ul>
           {reviews.map((item: any) => {
@@ -42,7 +53,7 @@ const Reviews = () => {
             );
           })}
         </ul>
-      </div>
+      </Container>
     );
   }
 };

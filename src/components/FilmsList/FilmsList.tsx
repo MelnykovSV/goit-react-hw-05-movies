@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Container } from './FilmsList.styled';
-import { IFilmsListItem } from '../../interfaces';
-export const FilmsList = ({ movies }: any) => {
+import { IFilmsListItem, IFilmsListProps } from '../../interfaces';
+
+export const FilmsList = ({ movies }: IFilmsListProps) => {
   const location = useLocation();
 
-  console.log(location);
   return (
     <Container>
       {movies.map(({ title, name, id }: IFilmsListItem) => {

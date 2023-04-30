@@ -17,6 +17,7 @@ const Reviews = () => {
 
       setStatus('resolved');
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (status === 'pending') {

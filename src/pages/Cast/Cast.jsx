@@ -19,6 +19,7 @@ const Cast = () => {
 
       setStatus('resolved');
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (status === 'pending') {
@@ -43,7 +44,7 @@ const Cast = () => {
       );
     }
     return (
-      <div>
+      <Container>
         <h2>CAST</h2>
         <ul>
           {cast.map(item => {
@@ -63,7 +64,7 @@ const Cast = () => {
             );
           })}
         </ul>
-      </div>
+      </Container>
     );
   }
 };

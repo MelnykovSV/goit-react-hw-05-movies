@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-import { Route, Routes, Outlet } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { SharedLayout } from './SharedLayout/SharedLayout';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';

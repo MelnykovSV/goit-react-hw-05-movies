@@ -11,7 +11,7 @@ const ErrorPage = () => {
         You are totally lost. There's nothing here. Go back to the{' '}
         <Link to="/">Home page</Link>{' '}
       </p>
-      <img src={image404} alt="404 error image" />
+      <img src={image404} alt="404 error" />
     </Container>
   );
 };

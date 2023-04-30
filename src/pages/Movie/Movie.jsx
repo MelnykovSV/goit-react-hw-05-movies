@@ -29,6 +29,7 @@ const Movie = () => {
         console.log(error);
         setStatus('error');
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (status === 'pending') {

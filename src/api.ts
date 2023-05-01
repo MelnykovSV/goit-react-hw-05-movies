@@ -4,24 +4,17 @@ const BASE = 'https://api.themoviedb.org/3/';
 const KEY = 'f5947bee69b0eabce6ba631e79612468';
 
 export async function getData(query: string) {
-  const response = await axios
-    .get(query)
-    .then(response => {
-      return response;
-    })
-    .catch(error => {
-      console.log(error.message);
-      throw new Error(error.message);
-    });
-  return response;
+  try {
+    const response = await axios.get(query);
+    return response;
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
 }
 
 export async function getTrendedMovies() {
-  const response = await getData(
-    `${BASE}trending/all/day?api_key=${KEY}&page=1`
-  );
-
-  return response;
+  return getData(`${BASE}trending/all/day?api_key=${KEY}&page=1`);
 }
 
 export function getMoviesByQuery(query: string) {

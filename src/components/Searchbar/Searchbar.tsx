@@ -1,4 +1,5 @@
 import { Container } from './Searchbar.styled';
+// import { ISearchbarProps } from '../../interfaces';
 
 export const Searchbar = ({ searchFormSubmitHandler }: any) => {
   return (

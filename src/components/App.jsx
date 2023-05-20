@@ -4,11 +4,6 @@ import { Route, Routes } from 'react-router-dom';
 
 import { SharedLayout } from './SharedLayout/SharedLayout';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
-// import { TestComponent } from './TestComponent';
-
-// import { getTrendedMovies } from '../api';
-// import { Trending } from './Trending/Trending';
-// import { FilmsListItem } from './FilmsList/FilmsList';
 
 const Movie = lazy(() => import('../pages/Movie/Movie'));
 const Movies = lazy(() => import('../pages/Movies/Movies'));

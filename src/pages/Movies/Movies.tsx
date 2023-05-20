@@ -11,12 +11,17 @@ const Movies = () => {
   const [status, setStatus] = useState('pending');
   const [movies, setMovies] = useState([]);
 
-  const searchFormSubmitHandler = (e: any) => {
+  const searchFormSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const trimmedQuery = e.target.elements.searchQuery.value.trim();
+
+    const target = e.target as typeof e.target & {
+      searchQuery: { value: string };
+    };
+
+    const trimmedQuery = target.searchQuery.value.trim();
     if (trimmedQuery) {
       setSearchParams({ query: trimmedQuery });
-      e.target.reset();
+      target.searchQuery.value = '';
     }
   };
 

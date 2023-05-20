@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FilmsList } from '../../components/FilmsList/FilmsList';
 import { getTrendedMovies } from '../../api';
-// import image from './../../images/placeholder-photo.jpg';
+
 import { Watch } from 'react-loader-spinner';
 
 const Home = () => {

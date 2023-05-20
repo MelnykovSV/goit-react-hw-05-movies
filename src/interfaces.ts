@@ -7,3 +7,11 @@ export interface IFilmsListItem {
 export interface IFilmsListProps {
   movies: IFilmsListItem[];
 }
+
+// export interface ISearchbarProps {
+//   searchFormSubmitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
+// }
+
+// export interface ISearchForm extends HTMLFormElement {
+//   searchQuery: HTMLInputElement;
+// }

@@ -7,6 +7,8 @@ import { Watch } from 'react-loader-spinner';
 
 import placeholderImage from './../../images/placeholder-photo.jpg';
 
+import { ICastItem } from '../../interfaces';
+
 const Cast = () => {
   const { movieId } = useParams();
 
@@ -14,11 +16,14 @@ const Cast = () => {
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
-    getMovieCast(movieId).then(response => {
-      setCast(response.data.cast);
+    if (movieId) {
+      getMovieCast(movieId).then(response => {
+        setCast(response.data.cast);
 
-      setStatus('resolved');
-    });
+        setStatus('resolved');
+      });
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -47,7 +52,8 @@ const Cast = () => {
       <Container>
         <h2>CAST</h2>
         <ul>
-          {cast.map(item => {
+          {cast.map((item: ICastItem) => {
+            console.log(item);
             return (
               <li>
                 <img

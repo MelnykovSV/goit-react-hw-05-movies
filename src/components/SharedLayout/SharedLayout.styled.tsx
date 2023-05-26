@@ -13,16 +13,8 @@ export const Container = styled.div`
   }
   a {
     text-decoration: none;
-    /* color: ${colors.text.primary}; */
   }
-  /* p {
-    color: ${colors.text.primary};
-  } */
-  /* h1,
-  h2,
-  h3 {
-    color: ${colors.text.primary};
-  } */
+
   .loader-container {
     display: flex;
     justify-content: center;

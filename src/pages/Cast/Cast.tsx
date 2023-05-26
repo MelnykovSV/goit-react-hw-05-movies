@@ -27,8 +27,8 @@ const Cast = () => {
           setStatus('resolved');
         })
         .catch((error: IError) => {
-          setStatus('rejected');
           setError(error.status_message);
+          setStatus('rejected');
         });
     }
 
@@ -63,7 +63,6 @@ const Cast = () => {
         <h2>CAST</h2>
         <ul>
           {cast.map((item: ICastItem) => {
-            console.log(item);
             return (
               <li>
                 <img
@@ -85,4 +84,4 @@ const Cast = () => {
   }
 };
 
-export default Cast;
+export default Cast as React.ComponentType;

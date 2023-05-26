@@ -37,8 +37,8 @@ const Movies = () => {
         setStatus('resolved');
       })
       .catch((error: IError) => {
-        setStatus('rejected');
         setError(error.status_message);
+        setStatus('rejected');
       });
   }, [searchParams]);
 
@@ -93,4 +93,4 @@ const Movies = () => {
   }
 };
 
-export default Movies;
+export default Movies as React.ComponentType;

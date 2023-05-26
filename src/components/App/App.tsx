@@ -3,12 +3,11 @@ import { Route, Routes } from 'react-router-dom';
 import { SharedLayout } from '../SharedLayout/SharedLayout';
 import Page404 from '../../pages/Page404/Page404';
 
-//Найти, как это делается правильно!!!
-const Movie = lazy<any>(() => import('../../pages/Movie/Movie'))!;
-const Movies = lazy<any>(() => import('../../pages/Movies/Movies'));
-const Home = lazy<any>(() => import('../../pages/Home/Home'));
-const Cast = lazy<any>(() => import('../../pages/Cast/Cast'));
-const Reviews = lazy<any>(() => import('../../pages/Reviews/Reviews'));
+const Movie = lazy(() => import('../../pages/Movie/Movie'));
+const Movies = lazy(() => import('../../pages/Movies/Movies'));
+const Home = lazy(() => import('../../pages/Home/Home'));
+const Cast = lazy(() => import('../../pages/Cast/Cast'));
+const Reviews = lazy(() => import('../../pages/Reviews/Reviews'));
 
 export const App = () => {
   return (

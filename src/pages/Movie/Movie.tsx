@@ -17,8 +17,6 @@ const Movie = () => {
   const [error, setError] = useState('');
   const [movie, setMovie] = useState<IMovie>();
 
-  console.log(movie);
-
   const location = useLocation();
 
   const backLinkHref = useRef(location.state?.from ?? '/movies');
@@ -31,8 +29,8 @@ const Movie = () => {
           setStatus('resolved');
         })
         .catch((error: IError) => {
-          setStatus('rejected');
           setError(error.status_message);
+          setStatus('rejected');
         });
     }
 
@@ -118,4 +116,4 @@ const Movie = () => {
   }
 };
 
-export default Movie;
+export default Movie as React.ComponentType;

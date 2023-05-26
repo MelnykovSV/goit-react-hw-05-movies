@@ -19,8 +19,8 @@ const Home = () => {
         setStatus('resolved');
       })
       .catch((error: IError) => {
-        setStatus('rejected');
         setError(error.status_message);
+        setStatus('rejected');
       });
   }, []);
 
@@ -48,12 +48,10 @@ const Home = () => {
     return (
       <Container>
         <h1>Trending today</h1>
-        {/* <img src={image} alt="" /> */}
-        {console.log(movies)}
         <FilmsList movies={movies}></FilmsList>
       </Container>
     );
   }
 };
 
-export default Home;
+export default Home as React.ComponentType;

@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { SharedLayout } from '../SharedLayout/SharedLayout';
-import ErrorPage from '../../pages/Page404/Page404';
+import Page404 from '../../pages/Page404/Page404';
 
 //Найти, как это делается правильно!!!
 const Movie = lazy<any>(() => import('../../pages/Movie/Movie'))!;
@@ -20,7 +20,7 @@ export const App = () => {
           <Route path="cast" element={<Cast />} />
           <Route path="reviews" element={<Reviews />} />
         </Route>
-        <Route path="*" element={<ErrorPage />} />
+        <Route path="*" element={<Page404 />} />
       </Route>
     </Routes>
   );

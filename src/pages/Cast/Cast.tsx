@@ -10,12 +10,13 @@ import placeholderImage from './../../images/placeholder-photo.jpg';
 import { ICastItem, IError } from '../../interfaces';
 
 import ErrorPage from '../../components/ErrorPage/ErrorPage';
+import shortid from 'shortid';
 
 const Cast = () => {
   const { movieId } = useParams();
 
   const [status, setStatus] = useState('pending');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<IError>({ status: null, body: '' });
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
@@ -26,8 +27,8 @@ const Cast = () => {
 
           setStatus('resolved');
         })
-        .catch((error: IError) => {
-          setError(error.status_message);
+        .catch((error: Error) => {
+          setError(JSON.parse(error.message));
           setStatus('rejected');
         });
     }
@@ -35,7 +36,7 @@ const Cast = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (status === 'rejected') {
-    return <ErrorPage errorMessage={error} />;
+    return <ErrorPage errorMessage={error.body} />;
   }
   if (status === 'pending') {
     return (
@@ -64,13 +65,14 @@ const Cast = () => {
         <ul>
           {cast.map((item: ICastItem) => {
             return (
-              <li>
+              <li key={shortid()}>
                 <img
                   src={
                     item.profile_path
                       ? `https://image.tmdb.org/t/p/w200/${item.profile_path}`
                       : placeholderImage
                   }
+                  width={200}
                   alt={item.name || 'No name found'}
                 />
                 <p>{item.name || 'No name found'}</p>

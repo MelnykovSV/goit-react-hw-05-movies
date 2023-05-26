@@ -8,8 +8,8 @@ export async function getData(query: string) {
     const response = await axios.get(query);
     return response;
   } catch (error: any) {
-    console.log(error.message);
-    throw new Error(error.message);
+    const errorData = { status: error.response.status, body: error.message };
+    throw new Error(JSON.stringify(errorData));
   }
 }
 

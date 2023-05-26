@@ -10,11 +10,12 @@ import { Watch } from 'react-loader-spinner';
 
 import { IMovie, IError } from '../../interfaces';
 import { Container } from './Movie.styled';
+import Page404 from '../Page404/Page404';
 
 const Movie = () => {
   const { movieId } = useParams();
   const [status, setStatus] = useState('pending');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<IError>({ status: null, body: '' });
   const [movie, setMovie] = useState<IMovie>();
 
   const location = useLocation();
@@ -28,8 +29,8 @@ const Movie = () => {
           setMovie(response.data);
           setStatus('resolved');
         })
-        .catch((error: IError) => {
-          setError(error.status_message);
+        .catch((error: Error) => {
+          setError(JSON.parse(error.message));
           setStatus('rejected');
         });
     }
@@ -51,7 +52,10 @@ const Movie = () => {
     );
   }
   if (status === 'rejected') {
-    return <ErrorPage errorMessage={error} />;
+    if (error.status === 404) {
+      return <Page404 />;
+    }
+    return <ErrorPage errorMessage={error.body} />;
   }
   if (status === 'resolved') {
     if (movie) {

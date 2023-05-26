@@ -28,7 +28,6 @@ export interface IErrorPageProps {
 }
 
 export interface IError {
-  status_code: number;
-  status_message: string;
-  success: boolean;
+  status: number | null;
+  body: string;
 }

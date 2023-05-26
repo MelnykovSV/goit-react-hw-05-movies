@@ -12,7 +12,7 @@ import ErrorPage from '../../components/ErrorPage/ErrorPage';
 const Movies = () => {
   const [searchParams, setSearchParams]: any = useSearchParams('');
   const [status, setStatus] = useState('pending');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<IError>({ status: null, body: '' });
   const [movies, setMovies] = useState([]);
 
   const searchFormSubmitHandler = (e: React.SyntheticEvent) => {
@@ -36,8 +36,8 @@ const Movies = () => {
         setMovies(response.data.results);
         setStatus('resolved');
       })
-      .catch((error: IError) => {
-        setError(error.status_message);
+      .catch((error: Error) => {
+        setError(JSON.parse(error.message));
         setStatus('rejected');
       });
   }, [searchParams]);
@@ -53,7 +53,7 @@ const Movies = () => {
     );
   } else {
     if (status === 'rejected') {
-      return <ErrorPage errorMessage={error} />;
+      return <ErrorPage errorMessage={error.body} />;
     }
     if (status === 'pending') {
       return (

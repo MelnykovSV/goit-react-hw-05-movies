@@ -3,10 +3,10 @@ import image404 from './../../images/image404.gif';
 import { Container } from './Page404.styled';
 import { Link } from 'react-router-dom';
 
-const ErrorPage = () => {
+const Page404 = () => {
   return (
     <Container>
-      <h1>404</h1>
+      <h1>Error 404</h1>
       <p>
         You are totally lost. There's nothing here. Go back to the{' '}
         <Link to="/">Home page</Link>{' '}
@@ -16,4 +16,4 @@ const ErrorPage = () => {
   );
 };
 
-export default ErrorPage;
+export default Page404;

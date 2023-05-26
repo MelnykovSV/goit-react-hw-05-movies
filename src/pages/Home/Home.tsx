@@ -9,7 +9,7 @@ import { IError } from '../../interfaces';
 
 const Home = () => {
   const [status, setStatus] = useState('pending');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<IError>({ status: null, body: '' });
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -18,14 +18,14 @@ const Home = () => {
         setMovies(response.data.results);
         setStatus('resolved');
       })
-      .catch((error: IError) => {
-        setError(error.status_message);
+      .catch((error: Error) => {
+        setError(JSON.parse(error.message));
         setStatus('rejected');
       });
   }, []);
 
   if (status === 'rejected') {
-    return <ErrorPage errorMessage={error} />;
+    return <ErrorPage errorMessage={error.body} />;
   }
   if (status === 'pending') {
     return (

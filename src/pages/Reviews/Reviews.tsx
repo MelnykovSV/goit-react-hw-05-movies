@@ -4,19 +4,28 @@ import { Container } from './Reviews.styled';
 import { useParams } from 'react-router';
 import { getMovieReviews } from '../../api';
 import { Watch } from 'react-loader-spinner';
+import { IError } from '../../interfaces';
+import ErrorPage from '../../components/ErrorPage/ErrorPage';
+import Page404 from '../Page404/Page404';
+import shortid from 'shortid';
 
 const Reviews = () => {
   const { movieId }: any = useParams();
 
   const [status, setStatus] = useState('pending');
+  const [error, setError] = useState<IError>({ status: null, body: '' });
   const [reviews, setReviews]: any = useState([]);
 
   useEffect(() => {
-    getMovieReviews(movieId).then(response => {
-      setReviews(response.data.results);
-
-      setStatus('resolved');
-    });
+    getMovieReviews(movieId)
+      .then(response => {
+        setReviews(response.data.results);
+        setStatus('resolved');
+      })
+      .catch((error: Error) => {
+        setError(JSON.parse(error.message));
+        setStatus('rejected');
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -33,6 +42,12 @@ const Reviews = () => {
       />
     );
   }
+  if (status === 'rejected') {
+    if (error.status === 404) {
+      return <Page404 />;
+    }
+    return <ErrorPage errorMessage={error.body} />;
+  }
   if (status === 'resolved') {
     if (!reviews.length) {
       return (
@@ -47,7 +62,7 @@ const Reviews = () => {
         <ul>
           {reviews.map((item: any) => {
             return (
-              <li>
+              <li key={shortid()}>
                 <p>{item.author || 'Author name is not found'}</p>
                 <p>{item.content || 'Overview content is not found'}</p>
               </li>

@@ -3,18 +3,30 @@ import { FilmsList } from '../../components/FilmsList/FilmsList';
 import { getTrendedMovies } from '../../api';
 
 import { Watch } from 'react-loader-spinner';
+import { Container } from './Home.styled';
+import ErrorPage from '../../components/ErrorPage/ErrorPage';
+import { IError } from '../../interfaces';
 
 const Home = () => {
   const [status, setStatus] = useState('pending');
+  const [error, setError] = useState('');
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    getTrendedMovies().then(response => {
-      setMovies(response.data.results);
-      setStatus('resolved');
-    });
+    getTrendedMovies()
+      .then(response => {
+        setMovies(response.data.results);
+        setStatus('resolved');
+      })
+      .catch((error: IError) => {
+        setStatus('rejected');
+        setError(error.status_message);
+      });
   }, []);
 
+  if (status === 'rejected') {
+    return <ErrorPage errorMessage={error} />;
+  }
   if (status === 'pending') {
     return (
       <div>
@@ -34,12 +46,12 @@ const Home = () => {
   }
   if (status === 'resolved') {
     return (
-      <div>
+      <Container>
         <h1>Trending today</h1>
         {/* <img src={image} alt="" /> */}
         {console.log(movies)}
         <FilmsList movies={movies}></FilmsList>
-      </div>
+      </Container>
     );
   }
 };

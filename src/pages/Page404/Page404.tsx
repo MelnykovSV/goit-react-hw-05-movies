@@ -1,6 +1,6 @@
 import React from 'react';
 import image404 from './../../images/image404.gif';
-import { Container } from './ErrorPage.styled';
+import { Container } from './Page404.styled';
 import { Link } from 'react-router-dom';
 
 const ErrorPage = () => {

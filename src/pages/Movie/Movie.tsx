@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense, useRef } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import ErrorPage from '../ErrorPage/ErrorPage';
+import { Outlet, Link, useLocation, NavLink } from 'react-router-dom';
+import ErrorPage from '../../components/ErrorPage/ErrorPage';
 
 import { getMovieData } from '../../api';
 
@@ -8,11 +8,13 @@ import { useParams } from 'react-router-dom';
 import placeholderPoster from './../../images/placeholder-poster.jpg';
 import { Watch } from 'react-loader-spinner';
 
-import { IMovie } from '../../interfaces';
+import { IMovie, IError } from '../../interfaces';
+import { Container } from './Movie.styled';
 
 const Movie = () => {
   const { movieId } = useParams();
   const [status, setStatus] = useState('pending');
+  const [error, setError] = useState('');
   const [movie, setMovie] = useState<IMovie>();
 
   console.log(movie);
@@ -28,9 +30,9 @@ const Movie = () => {
           setMovie(response.data);
           setStatus('resolved');
         })
-        .catch(error => {
-          console.log(error);
-          setStatus('error');
+        .catch((error: IError) => {
+          setStatus('rejected');
+          setError(error.status_message);
         });
     }
 
@@ -50,13 +52,13 @@ const Movie = () => {
       />
     );
   }
-  if (status === 'error') {
-    return <ErrorPage />;
+  if (status === 'rejected') {
+    return <ErrorPage errorMessage={error} />;
   }
   if (status === 'resolved') {
     if (movie) {
       return (
-        <div>
+        <Container>
           <Link to={backLinkHref.current}>Go back</Link>
           <h2>{movie?.title || movie?.name}</h2>
 
@@ -86,10 +88,10 @@ const Movie = () => {
           <nav>
             <ul>
               <li>
-                <Link to="cast">Cast</Link>
+                <NavLink to="cast">Cast</NavLink>
               </li>
               <li>
-                <Link to="reviews">Reviews</Link>
+                <NavLink to="reviews">Reviews</NavLink>
               </li>
             </ul>
           </nav>
@@ -108,7 +110,7 @@ const Movie = () => {
           >
             <Outlet />
           </Suspense>
-        </div>
+        </Container>
       );
     } else {
       //some default movie data

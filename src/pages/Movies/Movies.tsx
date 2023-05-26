@@ -5,10 +5,14 @@ import { Searchbar } from '../../components/Searchbar/Searchbar';
 import { FilmsList } from '../../components/FilmsList/FilmsList';
 import { getMoviesByQuery } from '../../api';
 import { Watch } from 'react-loader-spinner';
+import { IError } from '../../interfaces';
+
+import ErrorPage from '../../components/ErrorPage/ErrorPage';
 
 const Movies = () => {
   const [searchParams, setSearchParams]: any = useSearchParams('');
   const [status, setStatus] = useState('pending');
+  const [error, setError] = useState('');
   const [movies, setMovies] = useState([]);
 
   const searchFormSubmitHandler = (e: React.SyntheticEvent) => {
@@ -20,16 +24,22 @@ const Movies = () => {
 
     const trimmedQuery = target.searchQuery.value.trim();
     if (trimmedQuery) {
+      setStatus('pending');
       setSearchParams({ query: trimmedQuery });
       target.searchQuery.value = '';
     }
   };
 
   useEffect(() => {
-    getMoviesByQuery(searchParams.get('query')).then(response => {
-      setMovies(response.data.results);
-      setStatus('resolved');
-    });
+    getMoviesByQuery(searchParams.get('query'))
+      .then(response => {
+        setMovies(response.data.results);
+        setStatus('resolved');
+      })
+      .catch((error: IError) => {
+        setStatus('rejected');
+        setError(error.status_message);
+      });
   }, [searchParams]);
 
   if (!searchParams.get('query')) {
@@ -42,6 +52,9 @@ const Movies = () => {
       </Container>
     );
   } else {
+    if (status === 'rejected') {
+      return <ErrorPage errorMessage={error} />;
+    }
     if (status === 'pending') {
       return (
         <Container>
@@ -69,7 +82,11 @@ const Movies = () => {
             value={searchParams.get('query')}
             searchFormSubmitHandler={searchFormSubmitHandler}
           ></Searchbar>
-          <FilmsList movies={movies}></FilmsList>
+          {movies.length ? (
+            <FilmsList movies={movies}></FilmsList>
+          ) : (
+            <p>{`Cant find a movie with name ${searchParams.get('query')}`}</p>
+          )}
         </Container>
       );
     }

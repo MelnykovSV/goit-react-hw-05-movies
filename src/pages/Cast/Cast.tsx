@@ -7,26 +7,36 @@ import { Watch } from 'react-loader-spinner';
 
 import placeholderImage from './../../images/placeholder-photo.jpg';
 
-import { ICastItem } from '../../interfaces';
+import { ICastItem, IError } from '../../interfaces';
+
+import ErrorPage from '../../components/ErrorPage/ErrorPage';
 
 const Cast = () => {
   const { movieId } = useParams();
 
   const [status, setStatus] = useState('pending');
+  const [error, setError] = useState('');
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
     if (movieId) {
-      getMovieCast(movieId).then(response => {
-        setCast(response.data.cast);
+      getMovieCast(movieId)
+        .then(response => {
+          setCast(response.data.cast);
 
-        setStatus('resolved');
-      });
+          setStatus('resolved');
+        })
+        .catch((error: IError) => {
+          setStatus('rejected');
+          setError(error.status_message);
+        });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  if (status === 'rejected') {
+    return <ErrorPage errorMessage={error} />;
+  }
   if (status === 'pending') {
     return (
       <Watch
